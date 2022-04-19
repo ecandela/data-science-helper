@@ -1,19 +1,26 @@
 # -*- coding: utf-8 -*-
-import core_helper.helper_general as hg
-hg.set_base_path()
+#import core_helper.helper_general as hg
+#hg.set_base_path()
+
+from data_science_helper import helper_general as hg
 
 #import general as g
-import src.Prj_Core.core_helper.model.general as g
+#import src.Prj_Core.core_helper.model.general as g
+from data_science_helper.model import general as g
 
 #import lgb_model as l
-import src.Prj_Core.core_helper.model.lgb_model as l
+#import src.Prj_Core.core_helper.model.lgb_model as l
+from data_science_helper.model import lgb_model as l
 
 import math
 from imblearn.under_sampling import RandomUnderSampler
 import numpy as np
 import pandas as pd
-import core_helper.helper_plot as  hp
-import src.Prj_Core.core_helper.model.general as g
+#import core_helper.helper_plot as  hp
+from data_science_helper import helper_plot as hp
+
+
+#import src.Prj_Core.core_helper.model.general as g
 import time
 
 def modelar(X_train,y_train,X_test,y_test,url):

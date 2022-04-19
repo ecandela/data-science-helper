@@ -15,7 +15,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import TruncatedSVD
 
-import src.Prj_Core.core_helper.helper_dataframe as hd
+from data_science_helper import helper_dataframe
 
 import string
 from nltk.stem.snowball import SnowballStemmer

@@ -6,8 +6,11 @@ Created on Mon Dec 13 08:25:11 2021
 """
 import numpy as np
 import pandas as pd
-import core_helper.helper_general as hg
-hg.set_base_path()
+
+from data_science_helper import helper_general as hg
+
+#import core_helper.helper_general as hg
+#hg.set_base_path()
 
 def get_key_cache(list_values):
     #``^[a-zA-Z_][a-zA-Z0-9_]*$``

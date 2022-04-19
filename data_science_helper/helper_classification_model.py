@@ -4,8 +4,11 @@ Created on Tue Mar 23 15:44:39 2021
 
 @author: User
 """
-import core_helper.helper_general as hg
-hg.set_base_path()
+#import core_helper.helper_general as hg
+#hg.set_base_path()
+
+from data_science_helper import helper_general as hg
+
 
 import json
 import os
@@ -20,14 +23,22 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 import seaborn as sns
 #import core_helper.helper_plot as hp
-import src.Prj_Core.core_helper.helper_plot as hp
+#import src.Prj_Core.core_helper.helper_plot as hp
+from data_science_helper import helper_plot as hp
+
 
 #import model.general as g
-import src.Prj_Core.core_helper.model.general as g
+#import src.Prj_Core.core_helper.model.general as g
+from data_science_helper.model import general as g
+from data_science_helper.model import neg_bagging_fraction__lgb_model as nbf_lgb_model
+from data_science_helper.model import scale_pos_weight__lgb_model as spw_lgb_model
+from data_science_helper.model import custom_bagging__lgb_model as cb_lgb_model
 
-import src.Prj_Core.core_helper.model.neg_bagging_fraction__lgb_model as nbf_lgb_model
-import src.Prj_Core.core_helper.model.scale_pos_weight__lgb_model as spw_lgb_model
-import src.Prj_Core.core_helper.model.custom_bagging__lgb_model as cb_lgb_model
+
+
+#import src.Prj_Core.core_helper.model.neg_bagging_fraction__lgb_model as nbf_lgb_model
+#import src.Prj_Core.core_helper.model.scale_pos_weight__lgb_model as spw_lgb_model
+#import src.Prj_Core.core_helper.model.custom_bagging__lgb_model as cb_lgb_model
 
 #import model.neg_bagging_fraction__lgb_model as nbf_lgb_model
 #import model.scale_pos_weight__lgb_model as spw_lgb_model
