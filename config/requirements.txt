@@ -11,3 +11,4 @@ shap==0.38.1
 wordcloud==1.6.0
 lightgbm==3.3.2
 imbalanced-learn==0.8.0
+twine==3.3.0

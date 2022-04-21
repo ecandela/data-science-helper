@@ -89,18 +89,18 @@ def read(file_name=None, is_encoding=True, ignore_raises=False):
 
 
 setup(
-    name='data-science-helper',
+    name='data-science-helper-utility',
     version=VERSION,
     license=read("LICENSE", is_encoding=False, ignore_raises=True),
     packages=find_packages(),
     description='data-science-helper de proyectos de analitica avanzada',
-    long_description=read("README.rst"),
+    long_description=read("README.md"),
     author='Analitica Avanzada',
     author_email='analitica.avanzada.talento@gmail.com',
     
-    download_url='https://URL_PAQUETE/data-science-helper/-/archive/master/data-science-helper-master.tar'.format(
+    download_url='https://URL_PAQUETE/data-science-helper-utility/-/archive/master/data-science-helper-utility-master.tar'.format(
         VERSION),
-    keywords=['data-science-helper','paquete','package'],
+    keywords=['data-science-helper-utility','ds-helper','paquete','package'],
     install_requires=[
         'requests',
     ],
@@ -110,10 +110,7 @@ setup(
         'pytest-cov',
         'pytest-html',
         'pytest-dependency',
-    ],
-    entry_points={
-        'console_scripts': ['prj_core=core_helper.helper_general:main'],
-    },
+    ],    
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
