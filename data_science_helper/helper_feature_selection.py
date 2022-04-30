@@ -6,7 +6,7 @@ Created on Mon Apr 12 08:46:06 2021
 """
 import pandas as pd
 import numpy as np
-import core_helper.helper_output as ho
+import data_science_helper.helper_output as ho
 
 def drop_cls_unique_value(df):
     ho.print_message("drop_cls_unique_value: Eliminando columnas con un unico valor")

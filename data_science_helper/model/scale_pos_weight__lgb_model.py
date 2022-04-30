@@ -15,7 +15,7 @@ import math
 from imblearn.under_sampling import RandomUnderSampler
 import numpy as np
 import pandas as pd
-import core_helper.helper_plot as  hp
+import data_science_helper.helper_plot as  hp
 import time
 
 

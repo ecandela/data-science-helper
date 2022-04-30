@@ -7,7 +7,7 @@ Created on Tue Mar 23 14:52:15 2021
 
 import numpy as np
 import pandas as pd
-import core_helper.helper_dataframe as hd
+import data_science_helper.helper_dataframe as hd
 
 def agregar_na_cls(df,cl_list):
     

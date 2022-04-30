@@ -9,8 +9,8 @@ import numpy as np
 import pandas as pd
 import os
 import json
-import core_helper.helper_general as hg
-hg.set_base_path()
+import data_science_helper.helper_general as hg
+#hg.set_base_path()
 
 '''   
 MR_File_Name = "base.txt"
