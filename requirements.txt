@@ -12,3 +12,4 @@ wordcloud==1.6.0
 lightgbm==3.3.2
 imbalanced-learn==0.8.0
 twine==3.3.0
+requests==2.27.1

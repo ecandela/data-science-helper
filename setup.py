@@ -9,7 +9,7 @@ from setuptools import setup, find_packages
 from sys import version_info
 
 
-VERSION = "0.0.5"
+VERSION = "0.0.6"
 CURR_PATH = "{}{}".format(path.abspath(path.dirname(__file__)), '/')
 
 
@@ -116,6 +116,7 @@ setup(
         'wordcloud==1.6.0',
         'lightgbm==3.3.2',
         'imbalanced-learn==0.8.0',
+        'requests==2.27.1',
     ],
     #setup_requires=['requests','pandas','seaborn','numpy','scikit-learn','matplotlib'],
     tests_require=[
