@@ -15,7 +15,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import TruncatedSVD
 
-from data_science_helper import helper_dataframe
+from data_science_helper import helper_dataframe as hd
 
 import string
 from nltk.stem.snowball import SnowballStemmer
@@ -32,6 +32,7 @@ import lightgbm as lgb
 import pandas as pd
 
 from sklearn import preprocessing, decomposition, svm #, cross_validation
+
 
 class ShapFeatureSelector( BaseEstimator, TransformerMixin ):
     #Class Constructor 
