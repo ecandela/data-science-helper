@@ -18,3 +18,5 @@ from data_science_helper import helper_plot as hp
 from data_science_helper import helper_text_mining as htm
 from data_science_helper import helper_transformers as ht
 
+from data_science_helper.model import optuna as ot
+

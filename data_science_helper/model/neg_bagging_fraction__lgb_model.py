@@ -35,19 +35,30 @@ def get_neg_bagging_fraction_params(y_train,params):
     return params
 
 
-def modelar(X_train,y_train=None,X_test=None,y_test=None,params=None,url=None):
+def modelar(X_train=None,y_train=None,X_test=None,y_test=None,params=None,metric='average_precision',api="train_api",url=None):
     start = time.time()
-  
+    model = None
     params = get_neg_bagging_fraction_params(y_train,params)
-
-    model = l.lgb_model(X_train,y_train,X_test,y_test,params=params)
+    
+    if api=="train_api":
+        params.update({"metric":metric})
+        model = l.lgb_model_train(X_train,y_train,X_test,y_test,params=params)
+        y_prob_uno = model.predict(X_test, num_iteration=model.best_iteration) 
+        
+    elif api=="skl_api":
+        model = l.lgb_model_skl(X_train,y_train,X_test,y_test,params=params,metric=metric)        
+        predicted_probas = model.predict_proba(X_test) 
+        y_prob_uno = predicted_probas[:,1]
+        
     if url is not None:
         g.save_model(model,url)
         g.save_json(params,url+"/params.json")
     
-    predicted_probas = model.predict_proba(X_test) 
     
-    return model , predicted_probas 
+    if model is None:
+        raise Exception("Modelo no implementado")
+    
+    return model , y_prob_uno 
 
 
 

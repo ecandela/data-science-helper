@@ -1,0 +1,8 @@
+{
+    "metric": "average_precision",
+    "neg_bagging_fraction": 0.4017094017094017,
+    "objective": "binary",
+    "pos_bagging_fraction": 1,
+    "scale_pos_weight": 15.666666666666666,
+    "seed": 1
+}

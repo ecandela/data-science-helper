@@ -10,6 +10,9 @@ from scipy.stats import uniform as sp_uniform
 import pandas as pd
 from sklearn.model_selection import RandomizedSearchCV
 
+from lightgbm import early_stopping
+from lightgbm import log_evaluation
+
 #import general as g
 #import core_helper.model.general as g
 #import src.Prj_Core.core_helper.model.general as g
@@ -48,7 +51,18 @@ def get_possible_params():
     return  lgb_param_random
 
 
+
 def get_default_params():
+    params = {}    
+    params['seed']=1
+    params['objective']='binary'
+    params['metric']="None" 
+    params['seed']=1
+        
+    return params
+
+
+def get_default_params_old():
     params = {}    
     params['metric']="None" 
     params['first_metric_only']=True 
@@ -70,9 +84,9 @@ def get_default_params():
     return params
 
 
-def lgb_model(X_train,y_train,X_test,y_test,score_rs='average_precision',params=None):
+def lgb_model_skl(X_train,y_train,X_test,y_test,metric='average_precision',params=None):
 
-    fn_eval = g.get_fn_eval(score_rs)
+    fn_eval = g.get_fn_eval(metric)
     fit_params = get_fit_params(X_train,y_train,X_test,y_test,fn_eval)
   
                        
@@ -83,6 +97,23 @@ def lgb_model(X_train,y_train,X_test,y_test,score_rs='average_precision',params=
     
     model.fit(X_train,y_train,**fit_params)
    
+    return model
+
+
+def lgb_model_train(X_train,y_train,X_test,y_test,params=None,log=0,early_stop=400):
+
+    d_train = lgb.Dataset(X_train, label=y_train, categorical_feature=[])
+    d_valid = lgb.Dataset(X_test, label=y_test, categorical_feature=[])
+
+    watchlist = [d_valid]
+    
+    model = lgb.train(params,                 
+                  train_set=d_train,
+                  valid_names = ['data_valid'],
+                  valid_sets=watchlist,
+                  callbacks=[log_evaluation(log),early_stopping(early_stop)]
+                 )
+
     return model
 
 

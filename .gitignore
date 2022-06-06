@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+test/modelo/model.booster
+test/modelo/df_agg_t_EBR.xlsx
+test/modelo/df_agg_t_min.xlsx

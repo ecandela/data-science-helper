@@ -75,9 +75,9 @@ def plot_confusion_matrix(cm, class_labels,url_dir=""):
         plt.close()
         
 
-def print_kpis_rendimiento_modelo(y_test,predicted_probas,dir_name,print_consola):   
+def print_kpis_rendimiento_modelo(y_test,y_prob_uno,dir_name,print_consola):   
     
-    y_prob_uno = predicted_probas[:,1]
+    #y_prob_uno = predicted_probas[:,1]
     y_pred = np.round(y_prob_uno, 0)
     
     #y_pred = np.round(y_prob_uno, 0) se estaba repitiendo
@@ -91,8 +91,14 @@ def print_kpis_rendimiento_modelo(y_test,predicted_probas,dir_name,print_consola
         print("average_precision", average_precision)
         print(" -------  roc_auc_score -----------")
         
+        y_prob_cero = 1-y_prob_uno
+
+        y_probs = np.vstack((y_prob_cero, y_prob_uno)).T        
         
-        skplt.metrics.plot_roc(y_test, predicted_probas)    
+        #skplt.metrics.plot_roc(y_test, y_probs,classes_to_plot=[1])    
+        #skplt.metrics.plot_roc(y_test, y_probs)            
+        skplt.metrics.plot_roc(y_test, y_probs,classes_to_plot=[1],plot_micro=False,plot_macro=False)      
+        
         if dir_name is None:
             plt.show()
         else:        
@@ -102,11 +108,12 @@ def print_kpis_rendimiento_modelo(y_test,predicted_probas,dir_name,print_consola
             else:
                 if os.path.isdir(dir_name)==False:
                     os.makedirs(dir_name)
-                full_dirname = os.path.join(dir_name, filename)         
-                    
+                full_dirname = os.path.join(dir_name, filename)       
+                
+            print(full_dirname)        
             plt.savefig(full_dirname, bbox_inches='tight')
             plt.close()
-    
+        
     return precision, recall, f1 , average_precision , roc_auc
 
 

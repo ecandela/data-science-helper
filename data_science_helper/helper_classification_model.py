@@ -22,6 +22,7 @@ import time
 from datetime import datetime
 import matplotlib.pyplot as plt
 import seaborn as sns
+import lightgbm as lgb 
 #import core_helper.helper_plot as hp
 #import src.Prj_Core.core_helper.helper_plot as hp
 from data_science_helper import helper_plot as hp
@@ -44,19 +45,22 @@ from data_science_helper.model import custom_bagging__lgb_model as cb_lgb_model
 #import model.scale_pos_weight__lgb_model as spw_lgb_model
 #import model.custom_bagging__lgb_model as cb_lgb_model
 
-def modelar_clasificacion_binaria(strategy, X_train=None,y_train=None,X_test=None,y_test=None,params=None,url=None,print_consola=True):
+def modelar_clasificacion_binaria(strategy="", X_train=None,y_train=None,X_test=None,y_test=None,params=None,metric='average_precision',api="train_api",url=None,print_consola=True):
     start = time.time()
+            
+    args = {'X_train':X_train, 'y_train': y_train, 'X_test': X_test, 'y_test': y_test, 'params':params, "metric":metric,"api":api , "url":url }    
+    
     if (strategy=="neg_bagging_fraction__lgb_model"):
-        model , predicted_probas   = nbf_lgb_model.modelar(X_train,y_train,X_test,y_test,params,url)
+        model , y_prob_uno   = nbf_lgb_model.modelar(**args)
     if (strategy=="scale_pos_weight__lgb_model"):
-        model , predicted_probas   = spw_lgb_model.modelar(X_train,y_train,X_test,y_test,params,url)
+        model , y_prob_uno   = spw_lgb_model.modelar(**args)
     if (strategy=="custom_bagging__lgb_model"):
-        model , predicted_probas   = cb_lgb_model.modelar(X_train,y_train,X_test,y_test,url)
+        model , y_prob_uno   = cb_lgb_model.modelar(X_train,y_train,X_test,y_test,url)
 
-    kpis = generar_reporte(model,predicted_probas,X_test,y_test,url,print_consola)
+    kpis = generar_reporte(model,y_prob_uno,X_test,y_test,url,print_consola)
     print("Time elapsed: ", time.time() - start)
     
-    return model , predicted_probas  , kpis
+    return model , y_prob_uno  , kpis
 
 
 def modelar_clasificacion_binaria_rscv(strategy, X_train,y_train=None,X_test=None,y_test=None,score_rs=None,params=None,param_dist=None, n_iter=None,n_jobs=None,url=None,print_consola=True):
@@ -77,18 +81,22 @@ def modelar_clasificacion_binaria_rscv(strategy, X_train,y_train=None,X_test=Non
     return results, model , predicted_probas, params, best_params ,kpis
     
 
-def generar_reporte(model,predicted_probas, X_test, y_test,url,print_consola):    
-    kpis = hp.print_kpis_rendimiento_modelo(y_test,predicted_probas,url,print_consola)   
+def generar_reporte(model,y_prob_uno, X_test, y_test,url,print_consola):    
+    kpis = hp.print_kpis_rendimiento_modelo(y_test,y_prob_uno,url,print_consola)   
     if  isinstance(model, list)==False:
         if (print_consola):
             hp.print_shap_plot(model, X_test, url)      
-    g.generate_summary_evaluation(X_test,predicted_probas,y_test,url) 
+    g.generate_summary_evaluation(X_test,y_prob_uno,y_test,url) 
     return kpis
     
     
 def predecir_clasificacion_binaria(model, X=None, umbral=0.5):
     print("inicio predecir_clasificacion_binaria")
-    if  isinstance(model, list)==False:    
+    
+    if type(model)==lgb.basic.Booster:
+        y_prob_uno = model.predict(X, num_iteration=model.best_iteration)      
+        
+    elif  isinstance(model, list)==False:    
         predicted_probas = model.predict_proba(X)
         y_prob_uno = predicted_probas[:,1]
     else:
@@ -97,7 +105,7 @@ def predecir_clasificacion_binaria(model, X=None, umbral=0.5):
     
     y_pred_uno = np.where(y_prob_uno >= umbral, 1, 0).tolist()
     print("fin  predecir_clasificacion_binaria")
-    return y_pred_uno, y_prob_uno , predicted_probas
+    return y_pred_uno, y_prob_uno
 
 
 
@@ -142,9 +150,9 @@ def get_test_size(X_t):
     Total_Test = 20000 # Cantidad minima de Test
     test_size = round(Total_Test/Total_X_t,5)
     
-    min_test_size = 0.25
+    min_test_size = 0.20
     if(test_size > min_test_size):
-        test_size = 0.25    
+        test_size = 0.20    
     print("test_size : ", test_size)
     return test_size
 

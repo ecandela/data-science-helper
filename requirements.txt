@@ -13,3 +13,6 @@ lightgbm==3.3.2
 imbalanced-learn==0.8.0
 twine==3.3.0
 requests==2.27.1
+optuna==2.10.0
+graphviz==0.20
+openpyxl==3.0.6

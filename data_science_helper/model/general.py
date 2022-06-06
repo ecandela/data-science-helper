@@ -10,6 +10,7 @@ import pandas as pd
 import os
 import json
 import data_science_helper.helper_general as hg
+import lightgbm as lgb 
 #hg.set_base_path()
 
 '''   
@@ -154,7 +155,7 @@ def save_model(model,dir_name):
     if dir_name is None:
         print("")
     else:
-        filename ='model.sav' 
+        filename ='model.{}' 
         
         if len(dir_name.strip())==0 :
             full_dirname = filename
@@ -162,8 +163,11 @@ def save_model(model,dir_name):
             if os.path.isdir(dir_name)==False:
                 os.makedirs(dir_name)
             full_dirname = os.path.join(dir_name, filename)        
-           
-        pickle.dump(model, open(full_dirname, 'wb'))   
+        
+        if type(model)==lgb.basic.Booster:            
+            model.save_model(full_dirname.format("booster"))            
+        else:                  
+            pickle.dump(model, open(full_dirname.format("sav"), 'wb'))   
     
 def load_save_model(url_dir):
     filename = url_dir+'/model.sav'
@@ -174,12 +178,12 @@ def load_save_model(url_dir):
 
 
 
-def generate_summary_evaluation(X,predicted_probas,y,dir_name,modalidad="EBR"):
+def generate_summary_evaluation(X,y_prob_uno,y,dir_name,modalidad="EBR"):
     
     if dir_name is None:
         return 
     
-    y_prob_uno = predicted_probas[:,1]
+    #y_prob_uno = predicted_probas[:,1]
     y_pred = np.round(y_prob_uno, 0)
     
 
@@ -281,18 +285,18 @@ def generate_summary_evaluation(X,predicted_probas,y,dir_name,modalidad="EBR"):
         
         if(modalidad=="EBR"):
          #   X_eval_gb.to_excel(url_dir+"/df_agg_t.xlsx", encoding="utf-8")    
-            get_min_prob_df(predicted_probas,y,dir_name)
+            get_min_prob_df(y_prob_uno,y,dir_name)
         #else:
         #    X_eval_gb.to_excel(url_dir+"/df_agg_t_{}.xlsx".format(modalidad), encoding="utf-8")  
             
 
            
-def get_min_prob_df(predicted_probas,y_test,dir_name):
+def get_min_prob_df(y_prob_uno,y_test,dir_name):
     
     if dir_name is None:
         return
 
-    y_prob_uno = predicted_probas[:,1]
+    #y_prob_uno = predicted_probas[:,1]
     y_pred = np.round(y_prob_uno, 0)
 
     df = pd.DataFrame()

@@ -9,7 +9,7 @@ from setuptools import setup, find_packages
 from sys import version_info
 
 
-VERSION = "0.0.7"
+VERSION = "0.0.12"
 CURR_PATH = "{}{}".format(path.abspath(path.dirname(__file__)), '/')
 
 
@@ -117,6 +117,7 @@ setup(
         'lightgbm==3.3.2',
         'imbalanced-learn==0.8.0',
         'requests==2.27.1',
+        'optuna==2.10.0'
     ],
     #setup_requires=['requests','pandas','seaborn','numpy','scikit-learn','matplotlib'],
     tests_require=[
